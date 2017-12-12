@@ -1,4 +1,4 @@
-async function getLocale () {
+export async function getLocale () {
     var availableLocales = await (await fetch("./locales.json")).json()
     var userLocales = navigator.languages
     for (var i in userLocales) 

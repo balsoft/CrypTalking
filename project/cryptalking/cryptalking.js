@@ -1,6 +1,7 @@
 /* ECMAScript 6 enabled! */
-import getLocale from "./locale"
-import aesjs from "./aes256"
+"use strict"
+import {getLocale} from "./locale.js"
+import {aesjs} from "./aes256.js"
 
 let CRYPTALKING = {
 	strings: {},
@@ -506,6 +507,7 @@ window.onbeforeunload = () => {};
 
 window.addEventListener("load", async () => {
 	CRYPTALKING.strings = await getLocale()
+	console.log(CRYPTALKING)
 	let ARRAY_OF_INSCRIPTION = [{
 			query: "title",
 			value: CRYPTALKING.strings.title
@@ -550,7 +552,7 @@ window.addEventListener("load", async () => {
 	let p = Math.ceil(Math.random() * Math.pow(10, 1 + Math.random() * 0.5) + 10),
 		q = Math.ceil(Math.random() * Math.pow(10, 1 + Math.random() * 0.5) + 10),
 		n = p * q;
-	phi = (p - 1) * (q - 1),
+	let phi = (p - 1) * (q - 1),
 		e = Math.ceil(Math.random() * 30) + (n > 300 ? 20 : 0),
 		d = Math.ceil((1 + Math.ceil(Math.random() * 6 * phi)) / e);
 
