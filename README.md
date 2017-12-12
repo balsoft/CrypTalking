@@ -15,7 +15,7 @@ CrypTalking - защищённый мессенджер, работающий с
 
 ## Контакты
 
-https://serguun42.ru?contacts
-https://t.me/serguun42
-https://twitter.com/serguun42
-https://vk.com/serguun42
+https://serguun42.ru?contacts <br />
+https://t.me/serguun42 <br />
+https://twitter.com/serguun42 <br />
+https://vk.com/serguun42 <br />
