@@ -1,0 +1,60 @@
+{
+    "en": {
+        "title": "CrypTalking",
+        "mainpage": "Main page",
+        "guidepage": "All products",
+        "reload": "Reload",
+        "darktheme": "Dark theme",
+        "login": "Login as",
+        "createnick": "Create nick",
+        "singin": "Sign in with general account",
+        "welcome": "Welcome, ",
+        "usernamereserved": "That nick is reserved",
+        "error": "Error occured",
+        "close": "Close",
+        "connect": {
+            "connect": "Connect",
+            "connecttouserwithprovidednick": "User's nick to connect",
+            "usernotfound": "User not found",
+            "userwidthnicknotfound": "User __NICK__ is not found or is not online",
+            "connectingtouser": "Connecting to user __NICK__",
+            "newconnectionheader": "New connection",
+            "newconnectionfromuser": "New incoming connection request from user __NICK__",
+            "verificated": "<i class=\"material - icons \" id=\"verificated - user--dialog - icon\">&#xE8E8;</i>",
+            "notverificated": ". User is anonymous."
+        },
+        "accept": "Accept",
+        "decline": "Refuse",
+        "waiting": "Please, wait",
+        "yourmessage": "Your message"
+    },
+    "ru": {
+        "title": "CrypTalking",
+        "mainpage": "Главная",
+        "guidepage": "Все продукты",
+        "reload": "Перезагрузить",
+        "darktheme": "Тёмная версия",
+        "login": "Войти как",
+        "createnick": "Придумайте ник",
+        "singin": "Войти с помощью единой учётной записи",
+        "welcome": "Добро пожаловать, ",
+        "usernamereserved": "Такой ник уже занят",
+        "error": "Произошла ошибка",
+        "close": "Закрыть",
+        "connect": {
+            "connect": "Подключиться",
+            "connecttouserwithprovidednick": "Имя пользователя для подключения",
+            "usernotfound": "Пользователь не найден",
+            "userwidthnicknotfound": "Пользователь __NICK__ не найден или не онлайн",
+            "connectingtouser": "Соединение с пользователем __NICK__",
+            "newconnectionheader": "Новое подключение",
+            "newconnectionfromuser": "Новый входящий запрос на подключение от пользователя __NICK__",
+            "verificated": "<i class=\"material-icons\" id=\"verificated-user--dialog-icon\">&#xE8E8;</i>",
+            "notverificated": ". Пользователь анонимен."
+        },
+        "accept": "Принять",
+        "decline": "Отклонить",
+        "waiting": "Пожалуйста, подождите",
+        "yourmessage": "Ваше сообщение"
+    }
+}

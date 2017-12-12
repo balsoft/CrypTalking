@@ -1,67 +1,9 @@
 /* ECMAScript 6 enabled! */
+import getLocale from "./locale"
+import aesjs from "./aes256"
 
 let CRYPTALKING = {
-	userLanguage: new String(),
-	strings: {
-		eng: {
-			title: "CrypTalking",
-			mainpage: "Main page",
-			guidepage: "All products",
-			reload: "Reload",
-			darktheme: "Dark theme",
-			login: "Login as",
-			createnick: "Create nick",
-			singin: "Sign in with general account",
-			welcome: "Welcome, ",
-			usernamereserved: "That nick is reserved",
-			error: "Error occured",
-			close: "Close",
-			connect: {
-				connect: "Connect",
-				connecttouserwithprovidednick: "User's nick to connect",
-				usernotfound: "User not found",
-				userwidthnicknotfound: "User __NICK__ is not found or is not online",
-				connectingtouser: "Connecting to user __NICK__",
-				newconnectionheader: "New connection",
-				newconnectionfromuser: "New incoming connection request from user __NICK__",
-				verificated: '<i class="material-icons" id="verificated-user--dialog-icon">&#xE8E8;</i>',
-				notverificated: ". User is anonymous."
-			},
-			accept: "Accept",
-			decline: "Refuse",
-			waiting: "Please, wait",
-			yourmessage: "Your message",
-		},
-		ru: {
-			title: "CrypTalking",
-			mainpage: "Главная",
-			guidepage: "Все продукты",
-			reload: "Перезагрузить",
-			darktheme: "Тёмная версия",
-			login: "Войти как",
-			createnick: "Придумайте ник",
-			singin: "Войти с помощью единой учётной записи",
-			welcome: "Добро пожаловать, ",
-			usernamereserved: "Такой ник уже занят",
-			error: "Произошла ошибка",
-			close: "Закрыть",
-			connect: {
-				connect: "Подключиться",
-				connecttouserwithprovidednick: "Имя пользователя для подключения",
-				usernotfound: "Пользователь не найден",
-				userwidthnicknotfound: "Пользователь __NICK__ не найден или не онлайн",
-				connectingtouser: "Соединение с пользователем __NICK__",
-				newconnectionheader: "Новое подключение",
-				newconnectionfromuser: "Новый входящий запрос на подключение от пользователя __NICK__",
-				verificated: '<i class="material-icons" id="verificated-user--dialog-icon">&#xE8E8;</i>',
-				notverificated: ". Пользователь анонимен."
-			},
-			accept: "Принять",
-			decline: "Отклонить",
-			waiting: "Пожалуйста, подождите",
-			yourmessage: "Ваше сообщение",
-		},
-	},
+	strings: {},
 	startingNick: new String(),
 	user: {
 		nick: new String(),
@@ -221,7 +163,7 @@ const MakeSnackbar = iText => {
 		$(".s42-snackbar").removeClass("is-visible");
 	}, 3e3);
 };
-
+// TODO: Rewrite with WebSocket API 
 const SignedIn = iArr => {
 	CRYPTALKING.logged = true;
 	CRYPTALKING.user.nick = iArr[0];
@@ -275,10 +217,10 @@ const SignedIn = iArr => {
 
 				newConnections.forEach((item, index) => {
 					MakeDialog({
-						headDialogText: CRYPTALKING.strings[CRYPTALKING.userLanguage].connect.newconnectionheader,
-						bodyDialogText: CRYPTALKING.strings[CRYPTALKING.userLanguage].connect.newconnectionfromuser.replace(/__NICK__/, item.initiator) + (item.verified ? CRYPTALKING.strings[CRYPTALKING.userLanguage].connect.verificated : CRYPTALKING.strings[CRYPTALKING.userLanguage].connect.notverificated),
-						closeBtnText: CRYPTALKING.strings[CRYPTALKING.userLanguage].decline,
-						acceptBtnText: CRYPTALKING.strings[CRYPTALKING.userLanguage].accept,
+						headDialogText: CRYPTALKING.strings.connect.newconnectionheader,
+						bodyDialogText: CRYPTALKING.strings.connect.newconnectionfromuser.replace(/__NICK__/, item.initiator) + (item.verified ? CRYPTALKING.strings.connect.verificated : CRYPTALKING.strings.connect.notverificated),
+						closeBtnText: CRYPTALKING.strings.decline,
+						acceptBtnText: CRYPTALKING.strings.accept,
 						acceptBtnAction: ";",
 					}).then((iObj) => {
 						let LocalClickFunc = () => {
@@ -304,7 +246,7 @@ const SignedIn = iArr => {
 										AESCode: AESCode
 									});
 								} else {
-									MakeSnackbar(CRYPTALKING.strings[CRYPTALKING.userLanguage].error);
+									MakeSnackbar(CRYPTALKING.strings.error);
 								};
 							});
 						};
@@ -321,13 +263,13 @@ const SignedIn = iArr => {
 	$("#initial-card__input-area").show();
 	$("#initial-card__login-area").html(
 		`<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn" disabled="disabled">
-			${CRYPTALKING.strings[CRYPTALKING.userLanguage].connect.connect}
+			${CRYPTALKING.strings.connect.connect}
 		</button>`
 	);
 	$("#initial-card__login-area").show();
 
 	GlobalSetField({
-		inputLabel: CRYPTALKING.strings[CRYPTALKING.userLanguage].connect.connecttouserwithprovidednick,
+		inputLabel: CRYPTALKING.strings.connect.connecttouserwithprovidednick,
 		oninputFunction: (e) => {
 			let cText = $(e.currentTarget).val();
 
@@ -366,7 +308,7 @@ const SignedIn = iArr => {
 					let responseObj = JSON.parse(iXHR.responseText);
 
 					$("#initial-card").html(
-						`<h4 id="connection-header">${CRYPTALKING.strings[CRYPTALKING.userLanguage].connect.connectingtouser.replace(/__NICK__/, responseObj.nick)}</h4>
+						`<h4 id="connection-header">${CRYPTALKING.strings.connect.connectingtouser.replace(/__NICK__/, responseObj.nick)}</h4>
 						<div id="connection-spinner--container">
 							<div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active" id="connection-spinner"></div>
 						</div>`
@@ -379,28 +321,29 @@ const SignedIn = iArr => {
 						iResolve(responseObj);
 					}, 1e3);
 				}).then((iResponseObj) => {
-					MakeSnackbar(CRYPTALKING.strings[CRYPTALKING.userLanguage].waiting);
+					MakeSnackbar(CRYPTALKING.strings.waiting);
 					MakeNewArea({
 						nick: iResponseObj.nick,
 						verified: iResponseObj.verified,
 						AESCode: undefined
 					});
 				}, (e) => {
-					MakeSnackbar(CRYPTALKING.strings[CRYPTALKING.userLanguage].error);
+					MakeSnackbar(CRYPTALKING.strings.error);
 				});
 			} else if (iXHR.status == 404) {
 				MakeDialog({
-					headDialogText: CRYPTALKING.strings[CRYPTALKING.userLanguage].connect.usernotfound,
-					bodyDialogText: CRYPTALKING.strings[CRYPTALKING.userLanguage].connect.userwidthnicknotfound.replace(/__NICK__/, iXHR.responseText),
+					headDialogText: CRYPTALKING.strings.connect.usernotfound,
+					bodyDialogText: CRYPTALKING.strings.connect.userwidthnicknotfound.replace(/__NICK__/, iXHR.responseText),
 					closeBtnText: "OK",
 				});
 			} else {
-				MakeSnackbar(CRYPTALKING.strings[CRYPTALKING.userLanguage].error);
+				MakeSnackbar(CRYPTALKING.strings.error);
 			};
 		});
 	});
 };
 
+// TODO: Use Fetch API instead
 const XHR = {
 	Upload: (iURL, iSendingData, iCallback) => {
 		let cXHR = new XMLHttpRequest();
@@ -475,7 +418,7 @@ const MakeNewArea = iObj => {
 
 
 	let dialogDate = DialogSetField({
-		inputLabel: CRYPTALKING.strings[CRYPTALKING.userLanguage].yourmessage,
+		inputLabel: CRYPTALKING.strings.yourmessage,
 		oninputFunction: (e) => {
 			let cText = $(e.currentTarget).val();
 
@@ -501,9 +444,10 @@ const MakeNewArea = iObj => {
 					message: CRYPTALKING.encrypt(cDialog.typingText, cDialog.AESCode),
 				};
 
-				XHR.Upload("/project/cryptalking?send", JSON.stringify(sendingObj), (iXHR) => {
-					// console.log(JSON.parse(iXHR.responseText) || iXHR.responseText);
-				});
+				fetch("/project/cryptalking?send", {
+					method: "POST",
+					body: JSON.stringify(sendingObj)
+				})
 
 				$("#areas-dialog__dialog-" + cDate + " .areas-dialog__dialog-container").append(
 					'<div class="message sent">' + cDialog.typingText.replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + '<div class="message__time">' + CRYPTALKING.checkLength((new Date()).getHours()) + ':' + CRYPTALKING.checkLength((new Date()).getMinutes()) + '</div></div>'
@@ -560,36 +504,35 @@ $("#switch--dark-theme").on("change", (e) => {
 
 window.onbeforeunload = () => {};
 
-window.addEventListener("load", () => {
-	/ru/gi.test(navigator.language) ? CRYPTALKING.userLanguage = "ru" : CRYPTALKING.userLanguage = "eng";
-
+window.addEventListener("load", async () => {
+	CRYPTALKING.strings = await getLocale()
 	let ARRAY_OF_INSCRIPTION = [{
 			query: "title",
-			value: CRYPTALKING.strings[CRYPTALKING.userLanguage].title
+			value: CRYPTALKING.strings.title
 		},
 		{
 			query: ".s42-header__title span",
-			value: CRYPTALKING.strings[CRYPTALKING.userLanguage].title
+			value: CRYPTALKING.strings.title
 		},
 		{
 			query: "a[href='/']",
-			value: CRYPTALKING.strings[CRYPTALKING.userLanguage].mainpage
+			value: CRYPTALKING.strings.mainpage
 		},
 		{
 			query: "a[href='/guide/']",
-			value: CRYPTALKING.strings[CRYPTALKING.userLanguage].guidepage
+			value: CRYPTALKING.strings.guidepage
 		},
 		{
 			query: ".setting:nth-of-type(1) .setting__desc",
-			value: CRYPTALKING.strings[CRYPTALKING.userLanguage].reload
+			value: CRYPTALKING.strings.reload
 		},
 		{
 			query: ".mdl-switch__label",
-			value: CRYPTALKING.strings[CRYPTALKING.userLanguage].darktheme
+			value: CRYPTALKING.strings.darktheme
 		},
 		{
 			query: "#s42-snackbar__cancel-btn btntxt",
-			value: CRYPTALKING.strings[CRYPTALKING.userLanguage].close
+			value: CRYPTALKING.strings.close
 		},
 	];
 
@@ -602,6 +545,7 @@ window.addEventListener("load", () => {
 
 
 	/* RSA keys generating */
+	// FIXME: Math.random() is not cryptographically safe
 
 	let p = Math.ceil(Math.random() * Math.pow(10, 1 + Math.random() * 0.5) + 10),
 		q = Math.ceil(Math.random() * Math.pow(10, 1 + Math.random() * 0.5) + 10),
@@ -624,26 +568,27 @@ window.addEventListener("load", () => {
 
 
 	XHR.Upload("/project/cryptalking?init", "hi there", (iXHR) => {
+
 		$("#initial-card").fadeIn(4e2, () => {
 			if (iXHR.status == 200) {
 				$("#initial-card__input-area").hide();
-				$("#initial-card__login-area").html('<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn">' + CRYPTALKING.strings[CRYPTALKING.userLanguage].login + " <i>" + iXHR.responseText + '</i></button>');
+				$("#initial-card__login-area").html('<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn">' + CRYPTALKING.strings.login + " <i>" + iXHR.responseText + '</i></button>');
 
 
 				GlobalRipple("#initial-card__login-area__btn");
 				$("#initial-card__login-area__btn").click((e) => {
 					XHR.Upload("/project/cryptalking?cont", iXHR.responseText, (iXHR) => {
 						if (iXHR.status == 200) {
-							MakeSnackbar(CRYPTALKING.strings[CRYPTALKING.userLanguage].welcome + iXHR.responseText.split("\n")[0]);
+							MakeSnackbar(CRYPTALKING.strings.welcome + iXHR.responseText.split("\n")[0]);
 							SignedIn(iXHR.responseText.split("\n"));
 						} else {
-							MakeSnackbar(CRYPTALKING.strings[CRYPTALKING.userLanguage].error);
+							MakeSnackbar(CRYPTALKING.strings.error);
 						};
 					});
 				});
 			} else if (iXHR.status == 401) {
 				GlobalSetField({
-					inputLabel: CRYPTALKING.strings[CRYPTALKING.userLanguage].createnick,
+					inputLabel: CRYPTALKING.strings.createnick,
 					oninputFunction: (e) => {
 						let cText = $(e.currentTarget).val();
 
@@ -666,10 +611,10 @@ window.addEventListener("load", () => {
 
 				$("#initial-card__login-area").html(
 					`<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn">
-						${CRYPTALKING.strings[CRYPTALKING.userLanguage].login} <i>...</i>
+						${CRYPTALKING.strings.login} <i>...</i>
 					</button>
 					<button class="mdl-button mdl-button--raised" id="initial-card__login-area__sign-in--btn">
-						${CRYPTALKING.strings[CRYPTALKING.userLanguage].singin}
+						${CRYPTALKING.strings.singin}
 					</button>`
 				);
 
@@ -677,12 +622,12 @@ window.addEventListener("load", () => {
 				$("#initial-card__login-area__btn").click((e) => {
 					XHR.Upload("/project/cryptalking?cont", CRYPTALKING.startingNick, (iXHR) => {
 						if (iXHR.status == 200) {
-							MakeSnackbar(CRYPTALKING.strings[CRYPTALKING.userLanguage].welcome + iXHR.responseText.split("\n")[0]);
+							MakeSnackbar(CRYPTALKING.strings.welcome + iXHR.responseText.split("\n")[0]);
 							SignedIn(iXHR.responseText.split("\n"));
 						} else if (iXHR.status == 403) {
-							MakeSnackbar(CRYPTALKING.strings[CRYPTALKING.userLanguage].usernamereserved);
+							MakeSnackbar(CRYPTALKING.strings.usernamereserved);
 						} else {
-							MakeSnackbar(CRYPTALKING.strings[CRYPTALKING.userLanguage].error);
+							MakeSnackbar(CRYPTALKING.strings.error);
 						};
 					});
 				});
