@@ -4,11 +4,11 @@ window.onload = function () {
 		if (!(document.getElementById("starting") === undefined | document.getElementById("starting") === null)) {
 			if (/ru/gi.test(navigator.language)) {
 				document.querySelector(".s42-dialog__title").innerHTML = "Внимание";
-				document.querySelector(".s42-dialog__desc").innerHTML = "Видимо, ваш браузер устарел, либо вы используете старое устройство. Советую использвать другой браузер";
+				document.querySelector(".s42-dialog__desc").innerHTML = "Видимо, ваш браузер устарел, либо вы используете старое устройство. Советуем использовать другой браузер";
 				document.querySelector(".s42-dialog").style.height = "228px";
 			} else {
 				document.querySelector(".s42-dialog__title").innerHTML = "Attention";
-				document.querySelector(".s42-dialog__desc").innerHTML = "It's like your browser's unsupportable or you're using unsupportable device. Recommend to change your browser";
+				document.querySelector(".s42-dialog__desc").innerHTML = "It's like your browser's unsupported or you're using unsupported device. We recommend to change your browser";
 				document.querySelector(".s42-dialog").style.height = "248px";
 			}
 			document.querySelector(".s42-dialog__accept-btn").outerHTML = ""
