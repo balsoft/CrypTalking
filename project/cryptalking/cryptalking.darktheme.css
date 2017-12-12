@@ -1,0 +1,158 @@
+body.is-dark {
+	background-color: #333;
+}
+
+.is-dark #starting {
+	background-color: #333;
+}
+
+.is-dark .mdl-ripple {
+	background-color: #00796B;
+}
+
+.is-dark .s42-drawer__body {
+	background-color: #333;
+}
+
+.is-dark .s42-drawer__body > a {
+	background-color: #333;
+	color: #CCC;
+}
+
+.is-dark .s42-drawer__body > a:hover {
+	background-color: #666;
+	color: #FFF;
+}
+
+.is-dark .s42-header {
+	background-color: #333;
+	box-shadow: 0 0 15px 2px rgba(100, 100, 100, 0.5);
+}
+
+.is-dark .s42-header .mdl-ripple {
+	background-color: #FFF;
+}
+
+.is-dark .s42-header * {
+	color: #EEE;
+}
+
+.is-dark .s42-settings-field {
+	background-color: #333;
+	color: #DDD;
+}
+
+.is-dark .setting > i.material-icons {
+	color: #DDD;
+}
+
+.is-dark .setting__desc {
+	color: #DDD;
+}
+
+.is-dark  #s42-content {
+	background-color: #333;
+}
+
+.is-dark  #page-container {
+	background-color: #333;
+}
+
+.is-dark .s42-settings-field .mdl-ripple, .is-dark .s42-drawer .mdl-ripple, .is-dark .s42-input-icons .mdl-ripple {
+	background-color: #FFF;
+}
+
+.is-dark #s42-menu {
+	background-color: #333;
+	color: #FAFAFA;
+}
+
+.is-dark .s42-menu__item:hover {
+	background-color: transparent;
+}
+
+.is-dark .card {
+	background-color: #333;
+}
+
+.is-dark .s42-inputing-area {
+	background-color: #333;
+}
+
+.is-dark .s42-textfield--input {
+	color: #EEE;
+	background-color: #333;
+}
+
+.is-dark .s42-textfield label {
+	color: #DDD;
+}
+
+.is-dark .s42-textfield--input-border {
+	background-color: #AAA;
+}
+
+.is-dark .s42-inputing-area .s42-input-icons {
+	color: #DDD;
+}
+
+.is-dark #initial-card__login-area__btn:disabled {
+	background-color: #666;
+	color: #BBB;
+}
+
+.is-dark #connection-header {
+	color: #DDD;
+}
+
+.is-dark #main-content {
+	background-color: #222;
+	box-shadow: 0 2px 8px 0 rgba(100, 100, 100, 0.3);
+}
+
+.is-dark .areas-choise__cell {
+	color: #EEE;
+}
+
+@media (max-width: 900px) {
+	.is-dark #main-content {
+		z-index: 2;
+	}
+
+	.is-dark #areas-choice {
+		background-color: #333;
+	}
+
+	.is-dark .areas-choise__cell {
+		-webkit-transition: padding .4s ease-in-out 0s;
+		-moz-transition: padding .4s ease-in-out 0s;
+		transition: padding .4s ease-in-out 0s;
+		padding: 12px 20px;
+	}
+
+	.is-dark .areas-choise__cell.is-notificating {
+		padding: 12px 20px 12px 32px;
+		
+	}
+
+	.is-dark .areas-choise__cell.is-active {
+		border-bottom: 2px solid #00796B;
+	}
+}
+.is-dark .dialog-textfield--input {
+	color: #EEE;
+}
+
+.is-dark .dialog-inputing-area .dialog--clean-icon {
+	color: #AAA;
+}
+
+.is-dark .message.incoming {
+	color: #DDD;
+	background-color: #555;
+}
+
+.is-dark .message.sent {
+	color: #EEE;
+	background-color: #00796B;
+}
