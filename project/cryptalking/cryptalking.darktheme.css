@@ -14,12 +14,12 @@ body.is-dark {
 	background-color: #333;
 }
 
-.is-dark .s42-drawer__body > a {
+.is-dark .s42-drawer__body>a {
 	background-color: #333;
 	color: #CCC;
 }
 
-.is-dark .s42-drawer__body > a:hover {
+.is-dark .s42-drawer__body>a:hover {
 	background-color: #666;
 	color: #FFF;
 }
@@ -42,7 +42,7 @@ body.is-dark {
 	color: #DDD;
 }
 
-.is-dark .setting > i.material-icons {
+.is-dark .setting>i.material-icons {
 	color: #DDD;
 }
 
@@ -50,15 +50,17 @@ body.is-dark {
 	color: #DDD;
 }
 
-.is-dark  #s42-content {
+.is-dark #s42-content {
 	background-color: #333;
 }
 
-.is-dark  #page-container {
+.is-dark #page-container {
 	background-color: #333;
 }
 
-.is-dark .s42-settings-field .mdl-ripple, .is-dark .s42-drawer .mdl-ripple, .is-dark .s42-input-icons .mdl-ripple {
+.is-dark .s42-settings-field .mdl-ripple,
+.is-dark .s42-drawer .mdl-ripple,
+.is-dark .s42-input-icons .mdl-ripple {
 	background-color: #FFF;
 }
 
@@ -118,27 +120,23 @@ body.is-dark {
 	.is-dark #main-content {
 		z-index: 2;
 	}
-
 	.is-dark #areas-choice {
 		background-color: #333;
 	}
-
 	.is-dark .areas-choise__cell {
 		-webkit-transition: padding .4s ease-in-out 0s;
 		-moz-transition: padding .4s ease-in-out 0s;
 		transition: padding .4s ease-in-out 0s;
 		padding: 12px 20px;
 	}
-
 	.is-dark .areas-choise__cell.is-notificating {
 		padding: 12px 20px 12px 32px;
-		
 	}
-
 	.is-dark .areas-choise__cell.is-active {
 		border-bottom: 2px solid #00796B;
 	}
 }
+
 .is-dark .dialog-textfield--input {
 	color: #EEE;
 }

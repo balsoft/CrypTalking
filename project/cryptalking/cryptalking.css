@@ -25,7 +25,10 @@ body {
 	margin: calc(50vh - 14px) calc(50vw - 14px);
 }
 
-.mdl-spinner--single-color .mdl-spinner__layer-1,.mdl-spinner--single-color .mdl-spinner__layer-2,.mdl-spinner--single-color .mdl-spinner__layer-3,.mdl-spinner--single-color .mdl-spinner__layer-4 {
+.mdl-spinner--single-color .mdl-spinner__layer-1,
+.mdl-spinner--single-color .mdl-spinner__layer-2,
+.mdl-spinner--single-color .mdl-spinner__layer-3,
+.mdl-spinner--single-color .mdl-spinner__layer-4 {
 	border-color: #004D40;
 }
 
@@ -84,7 +87,8 @@ body {
 	justify-content: center;
 }
 
-#initial-card__login-area__btn, #initial-card__login-area__sign-in--btn {
+#initial-card__login-area__btn,
+#initial-card__login-area__sign-in--btn {
 	display: block;
 	position: relative;
 	margin: 4px;
@@ -95,7 +99,8 @@ body {
 	transition: background-color .3s ease-out 0s, color .3s ease-out 0s, box-shadow .3s ease-out 0s;
 }
 
-#initial-card__login-area__btn .mdl-ripple, #initial-card__login-area__sign-in--btn .mdl-ripple {
+#initial-card__login-area__btn .mdl-ripple,
+#initial-card__login-area__sign-in--btn .mdl-ripple {
 	background-color: #FFF;
 }
 
@@ -341,7 +346,8 @@ body {
 	background-color: transparent;
 }
 
-.dialog-textfield--input:focus, .dialog-textfield--input:active {
+.dialog-textfield--input:focus,
+.dialog-textfield--input:active {
 	outline: none;
 }
 
@@ -367,7 +373,8 @@ body {
 	text-overflow: ellipsis;
 }
 
-.dialog-textfield.is-focused label, .dialog-textfield.is-dirty label {
+.dialog-textfield.is-focused label,
+.dialog-textfield.is-dirty label {
 	top: 0;
 	font-size: 12px;
 }
@@ -395,7 +402,7 @@ body {
 	-webkit-tap-highlight-color: transparent;
 }
 
-.dialog-textfield.is-dirty + .dialog--clean-icon {
+.dialog-textfield.is-dirty+.dialog--clean-icon {
 	display: block;
 }
 
@@ -454,7 +461,7 @@ body {
 	background-color: #004D40;
 }
 
-.message.sent + .message.sent {
+.message.sent+.message.sent {
 	margin: 3px 12px;
 }
 
@@ -465,7 +472,7 @@ body {
 	background-color: #FFF;
 }
 
-.message.incoming + .message.incoming {
+.message.incoming+.message.incoming {
 	margin: 3px 12px;
 }
 
@@ -500,7 +507,6 @@ body {
 		padding: 0;
 		border-radius: 0;
 	}
-
 	#areas-choice {
 		display: flex;
 		flex-direction: row;
@@ -511,11 +517,9 @@ body {
 		overflow-x: auto;
 		overflow-y: hidden;
 	}
-
 	#areas-choice::-webkit-scrollbar {
 		height: 4px;
 	}
-
 	.areas-choise__cell {
 		display: inline-block;
 		width: -moz-fit-content;
@@ -525,11 +529,9 @@ body {
 		padding: 12px 20px 12px 32px;
 		box-sizing: border-box;
 	}
-
 	.areas-choise__cell.is-active {
 		border-bottom: 1px solid #00796B;
 	}
-
 	#areas-dialog {
 		width: 100%;
 		height: calc(100% - 40px);

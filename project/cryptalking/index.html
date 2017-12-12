@@ -46,88 +46,141 @@
 <body class="is-dark">
 
 
-<div id="starting">
-	<div id="spinner-container">
-		<div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active is-upgraded" data-upgraded=",MaterialSpinner"><div class="mdl-spinner__layer mdl-spinner__layer-1"><div class="mdl-spinner__circle-clipper mdl-spinner__left"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__gap-patch"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__circle-clipper mdl-spinner__right"><div class="mdl-spinner__circle"></div></div></div><div class="mdl-spinner__layer mdl-spinner__layer-2"><div class="mdl-spinner__circle-clipper mdl-spinner__left"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__gap-patch"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__circle-clipper mdl-spinner__right"><div class="mdl-spinner__circle"></div></div></div><div class="mdl-spinner__layer mdl-spinner__layer-3"><div class="mdl-spinner__circle-clipper mdl-spinner__left"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__gap-patch"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__circle-clipper mdl-spinner__right"><div class="mdl-spinner__circle"></div></div></div><div class="mdl-spinner__layer mdl-spinner__layer-4"><div class="mdl-spinner__circle-clipper mdl-spinner__left"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__gap-patch"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__circle-clipper mdl-spinner__right"><div class="mdl-spinner__circle"></div></div></div></div>
-	</div>
-</div>
-
-
-<div class="s42-header">
-	<div onclick="OpenDrawer();" class="mdl-js-button mdl-js-ripple-effect s42-drawer-button"><i class="material-icons">&#xE5D2;</i></div>
-	<div class="s42-header__title">
-		<span></span>
-	</div>
-	<div onclick="ShowSettings();" class="mdl-js-button mdl-js-ripple-effect s42-options-button" id="s42-header__settings-btn">
-		<i class="material-icons">&#xE5D4;</i>
-	</div>
-</div>
-<div class="s42-settings-field__obfuscator"></div>
-<div class="s42-settings-field">
-	<div onclick="location.reload()" class="setting mdl-js-button mdl-js-ripple-effect">
-		<i class="material-icons">&#xE5D5;</i>
-		<div class="setting__desc"></div>
-	</div>
-	<div class="setting">
-		<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch--dark-theme">
-			<input type="checkbox" id="switch--dark-theme" class="mdl-switch__input">
-			<span class="mdl-switch__label"></span>
-		</label>
-	</div>
-</div>
-<div class="s42-drawer">
-	<div class="s42-drawer__obfuscator"></div>
-	<div class="s42-drawer__body">
-		<div onclick="CloseDrawer()" class="mdl-js-button mdl-js-ripple-effect s42-drawer-button">
-			<i class="material-icons" style="color: #666;">&#xE5C4;</i>
+	<div id="starting">
+		<div id="spinner-container">
+			<div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active is-upgraded" data-upgraded=",MaterialSpinner">
+				<div class="mdl-spinner__layer mdl-spinner__layer-1">
+					<div class="mdl-spinner__circle-clipper mdl-spinner__left">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+					<div class="mdl-spinner__gap-patch">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+					<div class="mdl-spinner__circle-clipper mdl-spinner__right">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+				</div>
+				<div class="mdl-spinner__layer mdl-spinner__layer-2">
+					<div class="mdl-spinner__circle-clipper mdl-spinner__left">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+					<div class="mdl-spinner__gap-patch">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+					<div class="mdl-spinner__circle-clipper mdl-spinner__right">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+				</div>
+				<div class="mdl-spinner__layer mdl-spinner__layer-3">
+					<div class="mdl-spinner__circle-clipper mdl-spinner__left">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+					<div class="mdl-spinner__gap-patch">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+					<div class="mdl-spinner__circle-clipper mdl-spinner__right">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+				</div>
+				<div class="mdl-spinner__layer mdl-spinner__layer-4">
+					<div class="mdl-spinner__circle-clipper mdl-spinner__left">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+					<div class="mdl-spinner__gap-patch">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+					<div class="mdl-spinner__circle-clipper mdl-spinner__right">
+						<div class="mdl-spinner__circle"></div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<a href="/"></a>
-		<a href="/guide/"></a>
 	</div>
-</div>
 
 
-<div id="s42-content">
-
-<div class="card" id="initial-card">
-	<div class="card__gap"></div>
-	<div id="initial-card__input-area"></div>
-	<div id="initial-card__login-area"></div>
-	<div class="card__gap"></div>
-</div>
-
-<div id="main-content">
-	<div id="areas-choice">
-		<div id="areas-choice--container"></div>
+	<div class="s42-header">
+		<div onclick="OpenDrawer();" class="mdl-js-button mdl-js-ripple-effect s42-drawer-button">
+			<i class="material-icons">&#xE5D2;</i>
+		</div>
+		<div class="s42-header__title">
+			<span></span>
+		</div>
+		<div onclick="ShowSettings();" class="mdl-js-button mdl-js-ripple-effect s42-options-button" id="s42-header__settings-btn">
+			<i class="material-icons">&#xE5D4;</i>
+		</div>
 	</div>
-	<div id="areas-dialog"></div>
-</div>
-
-</div>
-
-
-<div class="s42-dialog__obfuscator"></div>
-<div class="s42-dialog">
-	<h3 class="s42-dialog__title"></h3>
-	<div class="s42-dialog__desc"></div>
-	<div class="s42-dialog__actions">
-		<button class="mdl-button s42-dialog__close-btn" s42-ripple><btntxt></btntxt></button>
-		<button class="mdl-button s42-dialog__accept-btn" s42-ripple><btntxt></btntxt></button>
+	<div class="s42-settings-field__obfuscator"></div>
+	<div class="s42-settings-field">
+		<div onclick="location.reload()" class="setting mdl-js-button mdl-js-ripple-effect">
+			<i class="material-icons">&#xE5D5;</i>
+			<div class="setting__desc"></div>
+		</div>
+		<div class="setting">
+			<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch--dark-theme">
+				<input type="checkbox" id="switch--dark-theme" class="mdl-switch__input">
+				<span class="mdl-switch__label"></span>
+			</label>
+		</div>
 	</div>
-</div>
+	<div class="s42-drawer">
+		<div class="s42-drawer__obfuscator"></div>
+		<div class="s42-drawer__body">
+			<div onclick="CloseDrawer()" class="mdl-js-button mdl-js-ripple-effect s42-drawer-button">
+				<i class="material-icons" style="color: #666;">&#xE5C4;</i>
+			</div>
+			<a href="/"></a>
+			<a href="/guide/"></a>
+		</div>
+	</div>
 
 
-<div class="s42-snackbar">
-	<div class="s42-snackbar__suptext"></div>
-	<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="s42-snackbar__cancel-btn"><btntxt></btntxt></button>
-</div>
+	<div id="s42-content">
+
+		<div class="card" id="initial-card">
+			<div class="card__gap"></div>
+			<div id="initial-card__input-area"></div>
+			<div id="initial-card__login-area"></div>
+			<div class="card__gap"></div>
+		</div>
+
+		<div id="main-content">
+			<div id="areas-choice">
+				<div id="areas-choice--container"></div>
+			</div>
+			<div id="areas-dialog"></div>
+		</div>
+
+	</div>
 
 
-<script src="/project/cryptalking/cryptalking.check.js"></script>
-<script src="/js/clipboard.js"></script>
-<script src="/js/mymdl.js"></script>
-<script src="/project/cryptalking/aes256.js"></script>
-<script src="/project/cryptalking/cryptalking.js"></script>
+	<div class="s42-dialog__obfuscator"></div>
+	<div class="s42-dialog">
+		<h3 class="s42-dialog__title"></h3>
+		<div class="s42-dialog__desc"></div>
+		<div class="s42-dialog__actions">
+			<button class="mdl-button s42-dialog__close-btn" s42-ripple>
+				<btntxt></btntxt>
+			</button>
+			<button class="mdl-button s42-dialog__accept-btn" s42-ripple>
+				<btntxt></btntxt>
+			</button>
+		</div>
+	</div>
+
+
+	<div class="s42-snackbar">
+		<div class="s42-snackbar__suptext"></div>
+		<button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="s42-snackbar__cancel-btn">
+			<btntxt></btntxt>
+		</button>
+	</div>
+
+
+	<script src="/project/cryptalking/cryptalking.check.js"></script>
+	<script src="/js/clipboard.js"></script>
+	<script src="/js/mymdl.js"></script>
+	<script src="/project/cryptalking/aes256.js"></script>
+	<script src="/project/cryptalking/cryptalking.js"></script>
 
 
 </body>
