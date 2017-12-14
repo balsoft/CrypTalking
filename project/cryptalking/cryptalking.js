@@ -131,11 +131,11 @@ const DialogSetField = iObj => {
 	return cDate;
 };
 
-const Upgrade = iElem => {
+const upgrade = iElem => {
 	componentHandler.upgradeElements($(iElem).toArray());
 };
 
-const MakeDialog = iObj => {
+const makeDialog = iObj => {
 	return new Promise((iResolve, iReject) => {
 		try {
 			$(".s42-dialog__title").html(iObj.headDialogText);
@@ -157,7 +157,7 @@ const MakeDialog = iObj => {
 	});
 };
 
-const MakeSnackbar = iText => {
+const makeSnackbar = iText => {
 	$(".s42-snackbar__suptext").html(iText);
 	$(".s42-snackbar").addClass("is-visible");
 	setTimeout(() => {
@@ -217,7 +217,7 @@ const SignedIn = iArr => {
 				if (!newConnections.length) return false;
 
 				newConnections.forEach((item, index) => {
-					MakeDialog({
+					makeDialog({
 						headDialogText: CRYPTALKING.strings.connect.newconnectionheader,
 						bodyDialogText: CRYPTALKING.strings.connect.newconnectionfromuser.replace(/__NICK__/, item.initiator) + (item.verified ? CRYPTALKING.strings.connect.verificated : CRYPTALKING.strings.connect.notverificated),
 						closeBtnText: CRYPTALKING.strings.decline,
@@ -241,13 +241,13 @@ const SignedIn = iArr => {
 
 							XHR.Upload("/project/cryptalking?send", JSON.stringify(sendingObj), (iXHR) => {
 								if (iXHR.status == 200) {
-									MakeNewArea({
+									makeNewArea({
 										nick: item.initiator,
 										verified: item.verified,
 										AESCode: AESCode
 									});
 								} else {
-									MakeSnackbar(CRYPTALKING.strings.error);
+									makeSnackbar(CRYPTALKING.strings.error);
 								};
 							});
 						};
@@ -315,30 +315,30 @@ const SignedIn = iArr => {
 						</div>`
 					);
 
-					Upgrade("#connection-spinner");
+					upgrade("#connection-spinner");
 
 
 					setTimeout(() => {
 						iResolve(responseObj);
 					}, 1e3);
 				}).then((iResponseObj) => {
-					MakeSnackbar(CRYPTALKING.strings.waiting);
-					MakeNewArea({
+					makeSnackbar(CRYPTALKING.strings.waiting);
+					makeNewArea({
 						nick: iResponseObj.nick,
 						verified: iResponseObj.verified,
 						AESCode: undefined
 					});
 				}, (e) => {
-					MakeSnackbar(CRYPTALKING.strings.error);
+					makeSnackbar(CRYPTALKING.strings.error);
 				});
 			} else if (iXHR.status == 404) {
-				MakeDialog({
+				makeDialog({
 					headDialogText: CRYPTALKING.strings.connect.usernotfound,
 					bodyDialogText: CRYPTALKING.strings.connect.userwidthnicknotfound.replace(/__NICK__/, iXHR.responseText),
 					closeBtnText: "OK",
 				});
 			} else {
-				MakeSnackbar(CRYPTALKING.strings.error);
+				makeSnackbar(CRYPTALKING.strings.error);
 			};
 		});
 	});
@@ -368,7 +368,7 @@ const XHR = {
 	},
 };
 
-const GetActiveUsers = () => {
+const getActiveUsers = () => {
 	return false;
 	/* THIS IS NOT WORKING */
 	CRYPTALKING.interval = setInterval(() => {
@@ -378,7 +378,7 @@ const GetActiveUsers = () => {
 	}, 5e3);
 };
 
-const MakeNewArea = iObj => {
+const makeNewArea = iObj => {
 	$("#initial-card").hide();
 	$("#main-content").show();
 
@@ -507,7 +507,7 @@ window.onbeforeunload = () => {};
 
 window.addEventListener("load", async () => {
 	CRYPTALKING.strings = await getLocale()
-	console.log(CRYPTALKING)
+	//console.log(CRYPTALKING)
 	let ARRAY_OF_INSCRIPTION = [{
 			query: "title",
 			value: CRYPTALKING.strings.title
@@ -581,10 +581,10 @@ window.addEventListener("load", async () => {
 				$("#initial-card__login-area__btn").click((e) => {
 					XHR.Upload("/project/cryptalking?cont", iXHR.responseText, (iXHR) => {
 						if (iXHR.status == 200) {
-							MakeSnackbar(CRYPTALKING.strings.welcome + iXHR.responseText.split("\n")[0]);
+							makeSnackbar(CRYPTALKING.strings.welcome + iXHR.responseText.split("\n")[0]);
 							SignedIn(iXHR.responseText.split("\n"));
 						} else {
-							MakeSnackbar(CRYPTALKING.strings.error);
+							makeSnackbar(CRYPTALKING.strings.error);
 						};
 					});
 				});
@@ -624,12 +624,12 @@ window.addEventListener("load", async () => {
 				$("#initial-card__login-area__btn").click((e) => {
 					XHR.Upload("/project/cryptalking?cont", CRYPTALKING.startingNick, (iXHR) => {
 						if (iXHR.status == 200) {
-							MakeSnackbar(CRYPTALKING.strings.welcome + iXHR.responseText.split("\n")[0]);
+							makeSnackbar(CRYPTALKING.strings.welcome + iXHR.responseText.split("\n")[0]);
 							SignedIn(iXHR.responseText.split("\n"));
 						} else if (iXHR.status == 403) {
-							MakeSnackbar(CRYPTALKING.strings.usernamereserved);
+							makeSnackbar(CRYPTALKING.strings.usernamereserved);
 						} else {
-							MakeSnackbar(CRYPTALKING.strings.error);
+							makeSnackbar(CRYPTALKING.strings.error);
 						};
 					});
 				});
