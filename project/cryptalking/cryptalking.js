@@ -2,6 +2,8 @@
 "use strict"
 import {getLocale} from "./locale.js"
 import {aesjs} from "./aes256.js"
+import {makeDialog, dialogSetField} from "./dialog.js"
+
 
 const CRYPTALKING = {
 	strings: {},
@@ -47,17 +49,19 @@ const globalCleanInput = iElem => {
 	$(iElem.parentNode).children(".s42-textfield").removeClass("is-dirty");
 	$(iElem.parentNode).children(".s42-textfield").children("input").val("");
 };
-
-const globalSetField = iObj => { // => Number
 	/**
-	 * inputLabel: String
-	 * oninputFunction: Function (e:HTMLObjectElement) => void
-	 * inputIconsClickListener: Function (e:HTMLObjectElement) => void
-	 * inputFieldFilling: any
-	 * inputType: String?
-	 * parentNodeQuery: String
+	 * 
+	 * @param {{
+		inputLabel: String, 
+		oninputFunction: function(HTMLObjectElement) => void, 
+		inputIconsClickListener: function(HTMLObjectElement) => void, 
+		inputFieldFilling: any, inputType: String?, 
+		parentNodeQuery: String
+	  }}
+	  iObj
+	 * @returns {Number}
 	 */
-
+function globalSetField (iObj) { 
 	let cDate = new Date();
 
 	let cInputLayout =
@@ -94,67 +98,8 @@ const globalSetField = iObj => { // => Number
 	return cDate;
 };
 
-const dialogSetField = iObj => {
-	let cDate = +new Date();
-
-	let cInputLayout =
-		`<div class="dialog-inputing-area" id="dialog-inputing-area-${cDate}">
-		<div class="dialog-textfield">
-			<input onfocus="$(this).parent().addClass('is-focused');" id="dialog-input-${cDate}" onblur="$(this).parent().removeClass('is-focused');" type="text" class="dialog-textfield--input" placeholder="${iObj.inputLabel}">
-		</div>
-		<div class="dialog--clean-icon">
-			<i class="material-icons">&#xE5CD;</i>
-		</div>
-		<div class="dialog--send-icon">
-			<i class="material-icons">&#xE163;</i>
-		</div>
-	</div>`;
-
-	$(iObj.parentNodeQuery).append(cInputLayout);
-
-
-
-	$("#dialog-inputing-area-" + cDate + " input").on("input", (e) => {
-		iObj.oninputFunction(e);
-	});
-
-	$("#dialog-inputing-area-" + cDate + " .dialog--clean-icon").click((e) => {
-		iObj.cleanListener(e);
-	});
-
-	$("#dialog-inputing-area-" + cDate + " .dialog--send-icon").click((e) => {
-		iObj.sendListener(e);
-	});
-
-	globalRipple("#dialog-inputing-area-" + cDate + " .dialog--clean-icon, #dialog-inputing-area-" + cDate + " .dialog--send-icon");
-
-	return cDate;
-};
-
 const upgrade = iElem => {
 	componentHandler.upgradeElements($(iElem).toArray());
-};
-
-const makeDialog = iObj => {
-	return new Promise((iResolve, iReject) => {
-		try {
-			$(".s42-dialog__title").html(iObj.headDialogText);
-			$(".s42-dialog__desc").html(iObj.bodyDialogText);
-			$(".s42-dialog__accept-btn").attr("onclick", iObj.acceptBtnAction || "");
-			$(".s42-dialog__accept-btn btntxt").html(iObj.acceptBtnText || "");
-			$(".s42-dialog__close-btn btntxt").html(iObj.closeBtnText);
-			$(".s42-dialog__obfuscator, .s42-dialog").fadeIn(4e2);
-
-			if (!iObj.acceptBtnAction | !iObj.acceptBtnText)
-				$(".s42-dialog__accept-btn").hide();
-			else
-				$(".s42-dialog__accept-btn").show();
-
-			iResolve(iObj);
-		} catch (e) {
-			iReject(e);
-		};
-	});
 };
 
 const makeSnackbar = iText => {
