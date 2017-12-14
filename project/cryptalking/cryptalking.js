@@ -3,7 +3,7 @@
 import {getLocale} from "./locale.js"
 import {aesjs} from "./aes256.js"
 
-let CRYPTALKING = {
+const CRYPTALKING = {
 	strings: {},
 	startingNick: new String(),
 	user: {
@@ -39,16 +39,16 @@ let CRYPTALKING = {
 
 
 
-const GlobalRipple = iElem => {
+const globalRipple = iElem => {
 	componentHandler.upgradeElements($(iElem).addClass("mdl-js-button mdl-js-ripple-effect").toArray());
 };
 
-const GlobalCleanInput = iElem => {
+const globalCleanInput = iElem => {
 	$(iElem.parentNode).children(".s42-textfield").removeClass("is-dirty");
 	$(iElem.parentNode).children(".s42-textfield").children("input").val("");
 };
 
-const GlobalSetField = iObj => { // => Number
+const globalSetField = iObj => { // => Number
 	/**
 	 * inputLabel: String
 	 * oninputFunction: Function (e:HTMLObjectElement) => void
@@ -89,12 +89,12 @@ const GlobalSetField = iObj => { // => Number
 		$("#s42-inputing-area-" + cDate + " .s42-textfield").addClass("is-dirty");
 	};
 
-	GlobalRipple("#s42-inputing-area-" + cDate + " .s42-input-icons");
+	globalRipple("#s42-inputing-area-" + cDate + " .s42-input-icons");
 
 	return cDate;
 };
 
-const DialogSetField = iObj => {
+const dialogSetField = iObj => {
 	let cDate = +new Date();
 
 	let cInputLayout =
@@ -126,7 +126,7 @@ const DialogSetField = iObj => {
 		iObj.sendListener(e);
 	});
 
-	GlobalRipple("#dialog-inputing-area-" + cDate + " .dialog--clean-icon, #dialog-inputing-area-" + cDate + " .dialog--send-icon");
+	globalRipple("#dialog-inputing-area-" + cDate + " .dialog--clean-icon, #dialog-inputing-area-" + cDate + " .dialog--send-icon");
 
 	return cDate;
 };
@@ -269,7 +269,7 @@ const SignedIn = iArr => {
 	);
 	$("#initial-card__login-area").show();
 
-	GlobalSetField({
+	globalSetField({
 		inputLabel: CRYPTALKING.strings.connect.connecttouserwithprovidednick,
 		oninputFunction: (e) => {
 			let cText = $(e.currentTarget).val();
@@ -293,7 +293,7 @@ const SignedIn = iArr => {
 
 
 
-	GlobalRipple("#initial-card__login-area__btn");
+	globalRipple("#initial-card__login-area__btn");
 
 	$("#initial-card__login-area__btn").click((e) => {
 		let sendingObj = {
@@ -406,7 +406,7 @@ const makeNewArea = iObj => {
 	$("#areas-dialog__dialog-" + cDate).show();
 
 
-	GlobalRipple("#areas-choise__cell-" + cDate);
+	globalRipple("#areas-choise__cell-" + cDate);
 
 	$("#areas-choise__cell-" + cDate).click((e) => {
 		$(".areas-choise__cell").removeClass("is-active");
@@ -418,7 +418,7 @@ const makeNewArea = iObj => {
 	});
 
 
-	let dialogDate = DialogSetField({
+	let dialogDate = dialogSetField({
 		inputLabel: CRYPTALKING.strings.yourmessage,
 		oninputFunction: (e) => {
 			let cText = $(e.currentTarget).val();
@@ -542,7 +542,7 @@ window.addEventListener("load", async () => {
 		$(i.query).html(i.value)
 	});
 
-	GlobalRipple("[s42-ripple]");
+	globalRipple("[s42-ripple]");
 
 
 
@@ -577,7 +577,7 @@ window.addEventListener("load", async () => {
 				$("#initial-card__login-area").html('<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn">' + CRYPTALKING.strings.login + " <i>" + iXHR.responseText + '</i></button>');
 
 
-				GlobalRipple("#initial-card__login-area__btn");
+				globalRipple("#initial-card__login-area__btn");
 				$("#initial-card__login-area__btn").click((e) => {
 					XHR.Upload("/project/cryptalking?cont", iXHR.responseText, (iXHR) => {
 						if (iXHR.status == 200) {
@@ -589,7 +589,7 @@ window.addEventListener("load", async () => {
 					});
 				});
 			} else if (iXHR.status == 401) {
-				GlobalSetField({
+				globalSetField({
 					inputLabel: CRYPTALKING.strings.createnick,
 					oninputFunction: (e) => {
 						let cText = $(e.currentTarget).val();
@@ -620,7 +620,7 @@ window.addEventListener("load", async () => {
 					</button>`
 				);
 
-				GlobalRipple("#initial-card__login-area__btn, #initial-card__login-area__sign-in--btn");
+				globalRipple("#initial-card__login-area__btn, #initial-card__login-area__sign-in--btn");
 				$("#initial-card__login-area__btn").click((e) => {
 					XHR.Upload("/project/cryptalking?cont", CRYPTALKING.startingNick, (iXHR) => {
 						if (iXHR.status == 200) {
