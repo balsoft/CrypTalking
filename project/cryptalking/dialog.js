@@ -20,7 +20,7 @@ function makeDialog(iObj) {
     });
 };
 
-function dialogSetField(iObj){
+function dialogSetField(iObj) {
     let cDate = +new Date();
 
     let cInputLayout =
@@ -57,4 +57,17 @@ function dialogSetField(iObj){
     return cDate;
 };
 
-export {makeDialog, dialogSetField}
+
+function makeSnackbar(iText) {
+    $(".s42-snackbar__suptext").html(iText);
+    $(".s42-snackbar").addClass("is-visible");
+    setTimeout(() => {
+        $(".s42-snackbar").removeClass("is-visible");
+    }, 3e3);
+};
+
+export {
+    makeDialog,
+    dialogSetField,
+    makeSnackbar
+}

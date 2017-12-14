@@ -1,12 +1,37 @@
 /* ECMAScript 6 enabled! */
 "use strict"
-import {getLocale} from "./locale.js"
-import {aesjs} from "./aes256.js"
-import {makeDialog, dialogSetField} from "./dialog.js"
 
+import {
+	getLocale
+} from "./locale.js"
 
+import {
+	aesjs
+} from "./aes256.js"
+
+import {
+	makeDialog,
+	dialogSetField,
+	makeSnackbar
+} from "./dialog.js"
+
+import {
+	getKeyPair
+} from "./keys.js"
+
+import {
+	emits,
+	callsback
+} from "./utils.js"
+
+/**
+ * Main cryptalking object
+ */
 const CRYPTALKING = {
-	strings: {},
+	/**
+	 * Localization
+	 */
+	strings: [""],
 	startingNick: new String(),
 	user: {
 		nick: new String(),
@@ -49,19 +74,18 @@ const globalCleanInput = iElem => {
 	$(iElem.parentNode).children(".s42-textfield").removeClass("is-dirty");
 	$(iElem.parentNode).children(".s42-textfield").children("input").val("");
 };
-	/**
-	 * 
-	 * @param {{
-		inputLabel: String, 
-		oninputFunction: function(HTMLObjectElement) => void, 
-		inputIconsClickListener: function(HTMLObjectElement) => void, 
-		inputFieldFilling: any, inputType: String?, 
-		parentNodeQuery: String
-	  }}
-	  iObj
-	 * @returns {Number}
-	 */
-function globalSetField (iObj) { 
+/**
+ * 
+ * @param {object} iObj
+ * @param {String} iObj.inputLabel
+ * @param {function(HTMLObjectElement) => void} iObj.oninputFunction 
+ * @param {function(HTMLObjectElement) => void} iObj.inputIconsClickListener
+ * @param {any} iObj.inputFieldFilling
+ * @param {String} iObj.inputType
+ * @param {String} iObj.parentNodeQuery
+ * @returns {Number}
+ */
+function globalSetField(iObj) {
 	let cDate = new Date();
 
 	let cInputLayout =
@@ -102,13 +126,6 @@ const upgrade = iElem => {
 	componentHandler.upgradeElements($(iElem).toArray());
 };
 
-const makeSnackbar = iText => {
-	$(".s42-snackbar__suptext").html(iText);
-	$(".s42-snackbar").addClass("is-visible");
-	setTimeout(() => {
-		$(".s42-snackbar").removeClass("is-visible");
-	}, 3e3);
-};
 // TODO: Rewrite with WebSocket API 
 const SignedIn = iArr => {
 	CRYPTALKING.logged = true;
@@ -450,9 +467,8 @@ $("#switch--dark-theme").on("change", (e) => {
 
 window.onbeforeunload = () => {};
 
-window.addEventListener("load", async () => {
+window.addEventListener("load", async() => {
 	CRYPTALKING.strings = await getLocale()
-	//console.log(CRYPTALKING)
 	let ARRAY_OF_INSCRIPTION = [{
 			query: "title",
 			value: CRYPTALKING.strings.title
@@ -489,101 +505,93 @@ window.addEventListener("load", async () => {
 
 	globalRipple("[s42-ripple]");
 
+	let keys = getKeyPair()
+
+	CRYPTALKING.publicKey = keys.publicKey
+	CRYPTALKING.privateKey = keys.privateKey
+
+	// TODO: rewrite with websockets
+	const init = await fetch("/project/cryptalking?init", {
+		body: "hi there",
+		method: "POST"
+	})
 
 
-	/* RSA keys generating */
-	// FIXME: Math.random() is not cryptographically safe
+	await callsback($("#initial-card").fadeIn)(4e2)
 
-	let p = Math.ceil(Math.random() * Math.pow(10, 1 + Math.random() * 0.5) + 10),
-		q = Math.ceil(Math.random() * Math.pow(10, 1 + Math.random() * 0.5) + 10),
-		n = p * q;
-	let phi = (p - 1) * (q - 1),
-		e = Math.ceil(Math.random() * 30) + (n > 300 ? 20 : 0),
-		d = Math.ceil((1 + Math.ceil(Math.random() * 6 * phi)) / e);
-
-	CRYPTALKING.publicKey = {
-		e,
-		n
-	};
-	CRYPTALKING.privateKey = {
-		d,
-		n
-	};
-
-	/* RSA end */
+	if (init.ok) {
+		$("#initial-card__input-area").hide();
+		$("#initial-card__login-area").html('<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn">' + CRYPTALKING.strings.login + " <i>" + init.responseText + '</i></button>');
 
 
-
-	XHR.Upload("/project/cryptalking?init", "hi there", (iXHR) => {
-
-		$("#initial-card").fadeIn(4e2, () => {
-			if (iXHR.status == 200) {
-				$("#initial-card__input-area").hide();
-				$("#initial-card__login-area").html('<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn">' + CRYPTALKING.strings.login + " <i>" + iXHR.responseText + '</i></button>');
-
-
-				globalRipple("#initial-card__login-area__btn");
-				$("#initial-card__login-area__btn").click((e) => {
-					XHR.Upload("/project/cryptalking?cont", iXHR.responseText, (iXHR) => {
-						if (iXHR.status == 200) {
-							makeSnackbar(CRYPTALKING.strings.welcome + iXHR.responseText.split("\n")[0]);
-							SignedIn(iXHR.responseText.split("\n"));
-						} else {
-							makeSnackbar(CRYPTALKING.strings.error);
-						};
-					});
-				});
-			} else if (iXHR.status == 401) {
-				globalSetField({
-					inputLabel: CRYPTALKING.strings.createnick,
-					oninputFunction: (e) => {
-						let cText = $(e.currentTarget).val();
-
-						if (cText.length) {
-							CRYPTALKING.startingNick = cText;
-							$(e.currentTarget.parentNode).addClass("is-dirty");
-							$("#initial-card__login-area__btn i").html(cText.replace(/</gi, "&lt;"));
-						} else {
-							CRYPTALKING.startingNick = new String();
-							$(e.currentTarget.parentNode).removeClass("is-dirty");
-							$("#initial-card__login-area__btn i").html("...");
-						};
-					},
-					inputIconsClickListener: (e) => {
-						CRYPTALKING.startingNick = new String();
-						$("#initial-card__login-area__btn i").html("...");
-					},
-					parentNodeQuery: "#initial-card__input-area"
-				});
-
-				$("#initial-card__login-area").html(
-					`<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn">
-						${CRYPTALKING.strings.login} <i>...</i>
-					</button>
-					<button class="mdl-button mdl-button--raised" id="initial-card__login-area__sign-in--btn">
-						${CRYPTALKING.strings.singin}
-					</button>`
-				);
-
-				globalRipple("#initial-card__login-area__btn, #initial-card__login-area__sign-in--btn");
-				$("#initial-card__login-area__btn").click((e) => {
-					XHR.Upload("/project/cryptalking?cont", CRYPTALKING.startingNick, (iXHR) => {
-						if (iXHR.status == 200) {
-							makeSnackbar(CRYPTALKING.strings.welcome + iXHR.responseText.split("\n")[0]);
-							SignedIn(iXHR.responseText.split("\n"));
-						} else if (iXHR.status == 403) {
-							makeSnackbar(CRYPTALKING.strings.usernamereserved);
-						} else {
-							makeSnackbar(CRYPTALKING.strings.error);
-						};
-					});
-				});
-				$("#initial-card__login-area__sign-in--btn").click((e) => {
-					window.location = "/login?ref=/project/cryptalking";
-				});
+		globalRipple("#initial-card__login-area__btn");
+		$("#initial-card__login-area__btn").click((e) => {
+			const cont = await fetch("/project/cryptalking?cont", {
+				method: "POST",
+				body: await init.text()
+			})
+			if (cont.status == 200) {
+				const contResponse = await cont.text()
+				makeSnackbar(CRYPTALKING.strings.welcome + contResponse.split("\n")[0]);
+				SignedIn(contResponse.split("\n"));
+			} else {
+				makeSnackbar(CRYPTALKING.strings.error);
 			};
 		});
-	});
+	} else if (init.status == 401) {
+		globalSetField({
+			inputLabel: CRYPTALKING.strings.createnick,
+			oninputFunction: (e) => {
+				let cText = $(e.currentTarget).val();
+
+				if (cText.length) {
+					CRYPTALKING.startingNick = cText;
+					$(e.currentTarget.parentNode).addClass("is-dirty");
+					$("#initial-card__login-area__btn i").html(cText.replace(/</gi, "&lt;"));
+				} else {
+					CRYPTALKING.startingNick = new String();
+					$(e.currentTarget.parentNode).removeClass("is-dirty");
+					$("#initial-card__login-area__btn i").html("...");
+				};
+			},
+			inputIconsClickListener: (e) => {
+				CRYPTALKING.startingNick = new String();
+				$("#initial-card__login-area__btn i").html("...");
+			},
+			parentNodeQuery: "#initial-card__input-area"
+		});
+
+		$("#initial-card__login-area").html(
+			`<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn">
+				${CRYPTALKING.strings.login} <i>...</i>
+			</button>
+			<button class="mdl-button mdl-button--raised" id="initial-card__login-area__sign-in--btn">
+				${CRYPTALKING.strings.singin}
+			</button>`
+		);
+
+		globalRipple("#initial-card__login-area__btn, #initial-card__login-area__sign-in--btn");
+		$("#initial-card__login-area__btn").click((e) => {
+			const cont = await fetch("/project/cryptalking?cont", {
+				method: "POST",
+				body: CRYPTALKING.startingNick
+			})
+			if (cont.status == 200) {
+				const contResponse = await cont.text()
+				makeSnackbar(CRYPTALKING.strings.welcome + contResponse.split("\n")[0]);
+				SignedIn(contResponse.split("\n"));
+			} else if (cont.status == 403) {
+				makeSnackbar(CRYPTALKING.strings.usernamereserved);
+			} else {
+				makeSnackbar(CRYPTALKING.strings.error);
+			};
+		});
+		$("#initial-card__login-area__sign-in--btn").click((e) => {
+			window.location = "/login?ref=/project/cryptalking";
+		});
+	};
+
+
 
 
 
