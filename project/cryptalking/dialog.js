@@ -1,9 +1,20 @@
+/**
+ * Create a new dialog window
+ * @param {object} iObj 
+ * @param {String} iObj.headDialogText
+ * @param {String} iObj.bodyDialogText
+ * @param {function} iObj.acceptBtnAction
+ * @param {String} iObj.acceptBtnText
+ * @param {String} iObj.closeBtnText
+ * @returns {Promise<boolean>}
+ */
 function makeDialog(iObj) {
     return new Promise((iResolve, iReject) => {
         try {
             $(".s42-dialog__title").html(iObj.headDialogText);
             $(".s42-dialog__desc").html(iObj.bodyDialogText);
-            $(".s42-dialog__accept-btn").attr("onclick", iObj.acceptBtnAction || "");
+            $(".s42-dialog__accept-btn").attr("onclick", iObj.acceptBtnAction || iResolve(true));
+            $(".s42-dialog__close-btn").attr("onclick", iResolve(false))
             $(".s42-dialog__accept-btn btntxt").html(iObj.acceptBtnText || "");
             $(".s42-dialog__close-btn btntxt").html(iObj.closeBtnText);
             $(".s42-dialog__obfuscator, .s42-dialog").fadeIn(4e2);
@@ -12,8 +23,6 @@ function makeDialog(iObj) {
                 $(".s42-dialog__accept-btn").hide();
             else
                 $(".s42-dialog__accept-btn").show();
-
-            iResolve(iObj);
         } catch (e) {
             iReject(e);
         };

@@ -23,15 +23,10 @@ import {
 	emits,
 	callsback
 } from "./utils.js"
-
 /**
  * Main cryptalking object
  */
 const CRYPTALKING = {
-	/**
-	 * Localization
-	 */
-	strings: [""],
 	startingNick: new String(),
 	user: {
 		nick: new String(),
@@ -179,15 +174,14 @@ const SignedIn = iArr => {
 				if (!newConnections.length) return false;
 
 				newConnections.forEach((item, index) => {
-					makeDialog({
-						headDialogText: CRYPTALKING.strings.connect.newconnectionheader,
-						bodyDialogText: CRYPTALKING.strings.connect.newconnectionfromuser.replace(/__NICK__/, item.initiator) + (item.verified ? CRYPTALKING.strings.connect.verificated : CRYPTALKING.strings.connect.notverificated),
-						closeBtnText: CRYPTALKING.strings.decline,
-						acceptBtnText: CRYPTALKING.strings.accept,
-						acceptBtnAction: ";",
-					}).then((iObj) => {
+					if (await makeDialog({
+							headDialogText: CRYPTALKING.strings.connect.newconnectionheader,
+							bodyDialogText: CRYPTALKING.strings.connect.newconnectionfromuser.replace(/__NICK__/, item.initiator) + (item.verified ? CRYPTALKING.strings.connect.verificated : CRYPTALKING.strings.connect.notverificated),
+							closeBtnText: CRYPTALKING.strings.decline,
+							acceptBtnText: CRYPTALKING.strings.accept,
+							acceptBtnAction: ";",
+						}))
 						let LocalClickFunc = () => {
-							$(".s42-dialog__accept-btn")[0].removeEventListener("click", LocalClickFunc);
 							$(".s42-dialog, .s42-dialog__obfuscator").fadeOut(4e2);
 
 							let AESCode = new Array();
@@ -214,8 +208,7 @@ const SignedIn = iArr => {
 							});
 						};
 
-						$(".s42-dialog__accept-btn")[0].addEventListener("click", LocalClickFunc);
-					});
+					$(".s42-dialog__accept-btn")[0].addEventListener("click", LocalClickFunc);
 				});
 			};
 		});
@@ -468,7 +461,14 @@ $("#switch--dark-theme").on("change", (e) => {
 window.onbeforeunload = () => {};
 
 window.addEventListener("load", async() => {
+
 	CRYPTALKING.strings = await getLocale()
+	if ($("body").hasClass("is-dark")) $("#switch--dark-theme")[0].click();
+	if (/firefox/gi.test(navigator.userAgent)) $(".s42-dialog").css({
+		height: "-moz-fit-content",
+		position: "relative"
+	});
+	$("#main-content").hide();
 	let ARRAY_OF_INSCRIPTION = [{
 			query: "title",
 			value: CRYPTALKING.strings.title
@@ -516,16 +516,19 @@ window.addEventListener("load", async() => {
 		method: "POST"
 	})
 
-
-	await callsback($("#initial-card").fadeIn)(4e2)
+	$("#starting").fadeOut(5e2, () => {
+		$("#starting").remove();
+	});
+	await callsback(setTimeout)(4e2)
 
 	if (init.ok) {
+
 		$("#initial-card__input-area").hide();
 		$("#initial-card__login-area").html('<button class="mdl-button mdl-button--raised" id="initial-card__login-area__btn">' + CRYPTALKING.strings.login + " <i>" + init.responseText + '</i></button>');
 
 
 		globalRipple("#initial-card__login-area__btn");
-		$("#initial-card__login-area__btn").click((e) => {
+		$("#initial-card__login-area__btn").click(async(e) => {
 			const cont = await fetch("/project/cryptalking?cont", {
 				method: "POST",
 				body: await init.text()
@@ -571,7 +574,7 @@ window.addEventListener("load", async() => {
 		);
 
 		globalRipple("#initial-card__login-area__btn, #initial-card__login-area__sign-in--btn");
-		$("#initial-card__login-area__btn").click((e) => {
+		$("#initial-card__login-area__btn").click(async(e) => {
 			const cont = await fetch("/project/cryptalking?cont", {
 				method: "POST",
 				body: CRYPTALKING.startingNick
@@ -589,20 +592,11 @@ window.addEventListener("load", async() => {
 		$("#initial-card__login-area__sign-in--btn").click((e) => {
 			window.location = "/login?ref=/project/cryptalking";
 		});
-	};
-
-
-
-
-
-	if ($("body").hasClass("is-dark")) $("#switch--dark-theme")[0].click();
-	if (/firefox/gi.test(navigator.userAgent)) $(".s42-dialog").css({
-		height: "-moz-fit-content",
-		position: "relative"
-	});
-	$("#main-content").hide();
-
-	$("#starting").fadeOut(5e2, () => {
-		$("#starting").remove();
-	});
+	} else {
+		makeDialog({
+			headDialogText: CRYPTALKING.strings.error,
+			bodyDialogText: CRYPTALKING.strings.error_critical,
+			closeBtnText: CRYPTALKING.strings.close
+		})
+	}
 });

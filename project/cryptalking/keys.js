@@ -12,11 +12,11 @@ export function getKeyPair() {
         e = Math.ceil(Math.random() * 30) + (n > 300 ? 20 : 0),
         d = Math.ceil((1 + Math.ceil(Math.random() * 6 * phi)) / e);
     return {
-        privateKey = {
+        privateKey: {
             d,
             n
         },
-        publicKey = {
+        publicKey: {
             e,
             n
         }

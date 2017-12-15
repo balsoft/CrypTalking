@@ -26,7 +26,8 @@
         "accept": "Accept",
         "decline": "Refuse",
         "waiting": "Please, wait",
-        "yourmessage": "Your message"
+        "yourmessage": "Your message",
+        "error_critical": "A critical error has occured. Try cleaning browser cache, checking the connection and then reloading the page. If the error happens again, please write to admin via <a href=\"https://t.me/serguun42\">his telegram.</a>"
     },
     "ru": {
         "title": "CrypTalking",
@@ -55,6 +56,7 @@
         "accept": "Принять",
         "decline": "Отклонить",
         "waiting": "Пожалуйста, подождите",
-        "yourmessage": "Ваше сообщение"
+        "yourmessage": "Ваше сообщение",
+        "error_critical": "Произошла ошибка, не позволяющая Cryptalking продолжить работу. Попробуйте почистить кэш, проверить соединение с сетью и перезагрузить страницу. Если эти действия не привели к исправлению проблемы, свяжитесь с администратором сайта через <a href=\"https://t.me/serguun42\">его телеграм.</a>"
     }
 }

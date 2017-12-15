@@ -21,5 +21,5 @@ window.onload = function () {
 			document.querySelector(".s42-dialog").style.zIndex = "21";
 			document.getElementById("starting").style.backgroundColor = "#DDD"
 		}
-	}, 1e3)
+	}, 5e3)
 }
