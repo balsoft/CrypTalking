@@ -1,7 +1,11 @@
+"use strict"
 /**
- * Create a new dialog window
+ * Create a new dialog window. 
+ * Returns a promise, which will resolve with true when "accept" is clicked and false when "close" is clicked.
+ * FIXME: it may not resolve if user hits escape.
+ * Will throw if something goes wrong while creating a window.
  * @param {object} iObj 
- * @param {String} iObj.headDialogText
+ * @param {String} iObj.headDialogText 
  * @param {String} iObj.bodyDialogText
  * @param {function} iObj.acceptBtnAction
  * @param {String} iObj.acceptBtnText
@@ -13,8 +17,15 @@ function makeDialog(iObj) {
         try {
             $(".s42-dialog__title").html(iObj.headDialogText);
             $(".s42-dialog__desc").html(iObj.bodyDialogText);
-            $(".s42-dialog__accept-btn").attr("onclick", iObj.acceptBtnAction || iResolve(true));
-            $(".s42-dialog__close-btn").attr("onclick", iResolve(false))
+            $(".s42-dialog__accept-btn").click(() => {
+                try {
+                    iObj.acceptBtnAction()
+                } catch (err) {}
+                iResolve(true);
+            })
+            $(".s42-dialog__close-btn").click(() => {
+                iResolve(false)
+            })
             $(".s42-dialog__accept-btn btntxt").html(iObj.acceptBtnText || "");
             $(".s42-dialog__close-btn btntxt").html(iObj.closeBtnText);
             $(".s42-dialog__obfuscator, .s42-dialog").fadeIn(4e2);

@@ -1,6 +1,6 @@
 /**
  * RSA keys generating 
- * 
+ * @returns {{privateKey:{d:number, n:number}, publicKey:{e:number, n:number}}}
  */
 export function getKeyPair() {
     // FIXME: Math.random() is not cryptographically safe

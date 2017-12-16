@@ -23,10 +23,12 @@ import {
 	emits,
 	callsback
 } from "./utils.js"
+
 /**
  * Main cryptalking object
  */
 const CRYPTALKING = {
+	strings: {},
 	startingNick: new String(),
 	user: {
 		nick: new String(),
@@ -57,8 +59,11 @@ const CRYPTALKING = {
 	checkLength: (iNum) => {
 		return (iNum < 10 ? "0" + iNum : iNum);
 	},
+	isDark: JSON.parse(localStorage.getItem('isDark')) || false
 };
 
+updateTheme()
+if (CRYPTALKING.isDark) $("switch--dark-theme").click()
 
 
 const globalRipple = iElem => {
@@ -173,40 +178,39 @@ const SignedIn = iArr => {
 
 				if (!newConnections.length) return false;
 
-				newConnections.forEach((item, index) => {
+				newConnections.forEach(async(item, index) => {
 					if (await makeDialog({
 							headDialogText: CRYPTALKING.strings.connect.newconnectionheader,
 							bodyDialogText: CRYPTALKING.strings.connect.newconnectionfromuser.replace(/__NICK__/, item.initiator) + (item.verified ? CRYPTALKING.strings.connect.verificated : CRYPTALKING.strings.connect.notverificated),
 							closeBtnText: CRYPTALKING.strings.decline,
 							acceptBtnText: CRYPTALKING.strings.accept,
 							acceptBtnAction: ";",
-						}))
-						let LocalClickFunc = () => {
-							$(".s42-dialog, .s42-dialog__obfuscator").fadeOut(4e2);
+						})) {
+						$(".s42-dialog, .s42-dialog__obfuscator").fadeOut(4e2);
 
-							let AESCode = new Array();
-							for (let i = 0; i < 32; i++) AESCode.push(Math.floor(Math.random() * 255));
-							let sendindMessage = Math.pow(AESCode, item.publicKey.e) % item.publicKey.n;
+						let AESCode = new Array();
+						for (let i = 0; i < 32; i++) AESCode.push(Math.floor(Math.random() * 255));
+						let sendindMessage = Math.pow(AESCode, item.publicKey.e) % item.publicKey.n;
 
-							let sendingObj = {
-								message: AESCode,
-								to: item.initiator,
-								from: CRYPTALKING.user.nick,
-								userKey: CRYPTALKING.user.key
-							};
-
-							XHR.Upload("/project/cryptalking?send", JSON.stringify(sendingObj), (iXHR) => {
-								if (iXHR.status == 200) {
-									makeNewArea({
-										nick: item.initiator,
-										verified: item.verified,
-										AESCode: AESCode
-									});
-								} else {
-									makeSnackbar(CRYPTALKING.strings.error);
-								};
-							});
+						let sendingObj = {
+							message: AESCode,
+							to: item.initiator,
+							from: CRYPTALKING.user.nick,
+							userKey: CRYPTALKING.user.key
 						};
+
+						XHR.Upload("/project/cryptalking?send", JSON.stringify(sendingObj), (iXHR) => {
+							if (iXHR.status == 200) {
+								makeNewArea({
+									nick: item.initiator,
+									verified: item.verified,
+									AESCode: AESCode
+								});
+							} else {
+								makeSnackbar(CRYPTALKING.strings.error);
+							};
+						});
+					};
 
 					$(".s42-dialog__accept-btn")[0].addEventListener("click", LocalClickFunc);
 				});
@@ -446,14 +450,20 @@ $(".s42-snackbar").click((e) => {
 	$(".s42-snackbar").removeClass("is-visible");
 });
 
-$("#switch--dark-theme").on("change", (e) => {
-	if (e.currentTarget.checked) {
+function updateTheme() {
+	if (CRYPTALKING.isDark) {
 		$("body").addClass("is-dark");
 		$("meta[data-id='theme-color']").attr("content", "#333333");
 	} else {
 		$("body").removeClass("is-dark");
 		$("meta[data-id='theme-color']").attr("content", "#004D40");
 	};
+}
+
+$("#switch--dark-theme").on("change", (e) => {
+	CRYPTALKING.isDark = e.currentTarget.checked
+	localStorage.setItem('isDark', CRYPTALKING.isDark)
+	updateTheme()
 });
 
 
@@ -593,10 +603,9 @@ window.addEventListener("load", async() => {
 			window.location = "/login?ref=/project/cryptalking";
 		});
 	} else {
-		makeDialog({
-			headDialogText: CRYPTALKING.strings.error,
-			bodyDialogText: CRYPTALKING.strings.error_critical,
-			closeBtnText: CRYPTALKING.strings.close
-		})
+		$("#initial-card").html(`
+		<h1>${CRYPTALKING.strings.error}</h1>
+		${CRYPTALKING.strings.error_critical}
+		`)
 	}
 });
