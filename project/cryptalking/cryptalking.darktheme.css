@@ -154,3 +154,11 @@ body.is-dark {
 	color: #EEE;
 	background-color: #00796B;
 }
+
+.is-dark .mdl-card__title-text {
+	color: #FFF;
+}
+
+.is-dark .mdl-card__supporting-text {
+	color: #EEE;
+}

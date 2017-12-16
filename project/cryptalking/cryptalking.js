@@ -604,8 +604,16 @@ window.addEventListener("load", async() => {
 		});
 	} else {
 		$("#initial-card").html(`
-		<h1>${CRYPTALKING.strings.error}</h1>
-		${CRYPTALKING.strings.error_critical}
-		`)
+		<div class="mdl-card__title">
+			<h2 class="mdl-card__title-text">${CRYPTALKING.strings.error}</h2>
+		</div>
+		<div class="mdl-card__supporting-text">
+			${CRYPTALKING.strings.error_critical}
+			<pre>
+${init.status}: ${init.statusText}
+${await init.text()}
+			</pre>
+		</div>
+	  `)
 	}
 });
